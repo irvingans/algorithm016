@@ -1,0 +1,32 @@
+二分查找确定半有序数组的无序初始点
+思路：与二分查找类似，不过比较条件的情况可以按以下划分：
+1.旋转点位于左边界和中点之外，查找目标数大于中点或小于左边界，向后规约。
+2.旋转点位于左边界和中点之间，查找目标数大于中点小于右边界（后半段升序），向后规约。
+3.其他情况一律将右边界赋值为中点（向前规约）
+
+代码实现：
+class Solution {
+    public int search(int[] nums, int target) {
+        //旋转点位于左边界和中点之外，查找目标数大于中点或小于左边界，向后规约。
+        //旋转点位于左边界和中点之间，查找目标数大于中点小于右边界（后半段升序），向后规约。
+        //其他情况一律将右边界赋值为中点（向前规约）
+        int left = 0;
+        int right = nums.length-1;    
+        //int mid = nums.length/2;
+
+        while(left<right){
+            int mid = (left+right)/2;
+            if(nums[left]<=nums[mid]&&(target>nums[mid]||target<nums[left])){
+                left = mid + 1;
+            }
+            else if(target>nums[mid]&&target <= nums[right]){
+                left = mid + 1;
+            }
+            else{
+                right = mid;
+            }
+        }
+        
+        return nums[left]==target&&left==right?left : -1;
+    }
+}
